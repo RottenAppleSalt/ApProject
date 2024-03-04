@@ -18,6 +18,7 @@ fake_zoom = 1.0
 zoom = 1.0
 camera_x = 0.0
 camera_y = 0.0
+iterations = ITERATIONS
 
 clock = pg.time.Clock()
 
@@ -63,18 +64,24 @@ while True:
             pg.quit()
             sys.exit()
 
+        if event.type == pg.KEYDOWN and event.key == pg.K_q and iterations > 0:
+            iterations -= 1
+
+        if event.type == pg.KEYDOWN and event.key == pg.K_e:
+            iterations += 1
+
     keys = pg.key.get_pressed()
 
-    if keys[pg.K_UP]:
+    if keys[pg.K_UP] or keys[pg.K_w]:
         camera_y -= camera_speed
 
-    if keys[pg.K_DOWN]:
+    if keys[pg.K_DOWN] or keys[pg.K_s]:
         camera_y += camera_speed
 
-    if keys[pg.K_RIGHT]:
+    if keys[pg.K_RIGHT] or keys[pg.K_d]:
         camera_x += camera_speed
 
-    if keys[pg.K_LEFT]:
+    if keys[pg.K_LEFT] or keys[pg.K_a]:
         camera_x -= camera_speed
 
     if keys[pg.K_EQUALS]:
@@ -88,7 +95,7 @@ while True:
     frame_tex = surf_to_texture(display)
 
     frame_tex.use(0)
-    program['ITERATIONS'].value = ITERATIONS
+    program['ITERATIONS'].value = iterations
 
     program['zoom'].value = zoom
     program['cam_x'].value = camera_x

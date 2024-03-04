@@ -94,15 +94,15 @@ while True:
     program['cam_x'].value = camera_x
     program['cam_y'].value = camera_y
 
-    sin_x = program['sin_x']
-    sin_y = program['sin_y']
-    sin_z = program['sin_z']
+    sin_colors = [program['sin_x'], program['sin_y'], program['sin_z']]
+    
+    for i, sin_color in enumerate(sin_colors):
+        sin_color.value = math.sin(time + (2 * i) * (math.pi / 3))
+
     print(pg.time.get_ticks() / 1000)
     print(zoom)
     print(camera_speed)
-    sin_x.value = math.sin(time)
-    sin_y.value = math.sin(time + 2 * math.pi / 3)
-    sin_z.value = math.sin(time + 4 * math.pi / 3)
+    
     render_object.render(mode=mgl.TRIANGLE_STRIP)
 
     pg.display.flip()

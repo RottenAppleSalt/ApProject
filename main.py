@@ -148,7 +148,7 @@ while True:
     frame_tex = surf_to_texture(display)
 
     frame_tex.use(0)
-    program['ITERATIONS'].value = ITERATIONS
+    program['ITERATIONS'].value = iterations
 
     program['zoom'].value = zoom
     program['cam_x'].value = camera_x

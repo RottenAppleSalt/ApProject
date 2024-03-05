@@ -1,9 +1,11 @@
-#version 330 core
+#version 400
 
 in vec2 uvs;
 out vec4 f_color;
 
 uniform int ITERATIONS;
+
+//uniform float time;
 
 uniform float zoom;
 uniform float cam_x;
@@ -31,7 +33,7 @@ void main() {
     uv.y = uv.y*abs(c-d)+c + cam_y;
 
     // Z0
-    vec2 z = vec2(0,0);
+    vec2 z = vec2(0, 0);
     
     // Curent pixel in mandelbrot?
     bool is_bounded = true;
@@ -46,7 +48,7 @@ void main() {
         vec2 z_new;
         
         z_new.x = z.x*z.x - z.y*z.y;
-        z_new.y = 2.*z.x*z.y;
+        z_new.y = 2*z.x*z.y;
         
         z_new += uv;
         
@@ -59,7 +61,7 @@ void main() {
     // Pixel color
     vec3 col = vec3(wh_bl);
     if(!is_bounded) {
-        col = vec3(pow(age/float(ITERATIONS)*20., 0.75));
+        col = vec3(pow(float(age)/float(ITERATIONS)*20., 0.75));
         col = vec3(col.x * col_x, col.y * col_y, col.z * col_z);
     }
 

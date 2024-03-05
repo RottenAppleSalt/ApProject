@@ -93,6 +93,8 @@ while True:
     # mouse_coords = pg.mouse.get_pos()
     time = pg.time.get_ticks() / 1000
 
+    # program['time'].value = time
+
     camera_speed = 0.01 * zoom
 
     for event in pg.event.get():
@@ -145,7 +147,11 @@ while True:
 
     zoom = 1 / math.pow(fake_zoom, 10)
 
+    print(zoom)
+
     frame_tex = surf_to_texture(display)
+
+    
 
     frame_tex.use(0)
     program['ITERATIONS'].value = iterations

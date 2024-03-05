@@ -21,6 +21,7 @@ camera_y = 0.0
 iterations = ITERATIONS
 filter_names = ['rainbow', 'sun', 'purple', 'inverted']
 selected_filter = 0
+selected_fractal = 0 
 
 clock = pg.time.Clock()
 
@@ -43,12 +44,13 @@ def get_shaders(shader_name):
 
     return vert_shader, frag_shader
 
-vert_shader, frag_shader = get_shaders('mandelbrot')
-# vert_shader_2, frag_shader_2 = get_shaders('sun')
-program = ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
-# program2 = ctx.program(vertex_shader=vert_shader_2, fragment_shader=frag_shader_2)
-render_object = ctx.vertex_array(program, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
-# render_object_2 = ctx.vertex_array(program, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
+vert_shader_m, frag_shader_m = get_shaders('mandelbrot')
+program_m = ctx.program(vertex_shader=vert_shader_m, fragment_shader=frag_shader_m)
+render_object_m = ctx.vertex_array(program_m, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
+
+vert_shader_j, frag_shader_j = get_shaders('julia')
+program_j = ctx.program(vertex_shader=vert_shader_j, fragment_shader=frag_shader_j)
+render_object_j = ctx.vertex_array(program_j, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
 
 def surf_to_texture(surf):
     tex = ctx.texture(surf.get_size(), 4)
@@ -121,7 +123,13 @@ while True:
             if event.key == pg.K_4:
                 selected_filter = 3  # inverted
 
-    colors = [program['wh_bl'], program['col_x'], program['col_y'], program['col_z']]
+            if event.key == pg.K_z:
+                selected_fractal = 0 # mandelbrot
+
+            if event.key == pg.K_x:
+                selected_fractal = 1 # julia
+
+    colors = [program_m['wh_bl'], program_m['col_x'], program_m['col_y'], program_m['col_z']]
 
     apply_filter(time, selected_filter, colors)
 
@@ -151,16 +159,18 @@ while True:
 
     frame_tex = surf_to_texture(display)
 
-    
-
     frame_tex.use(0)
-    program['ITERATIONS'].value = iterations
+    program_m['ITERATIONS'].value = iterations
 
-    program['zoom'].value = zoom
-    program['cam_x'].value = camera_x
-    program['cam_y'].value = camera_y
-    
-    render_object.render(mode=mgl.TRIANGLE_STRIP)
+    program_m['zoom'].value = zoom
+    program_m['cam_x'].value = camera_x
+    program_m['cam_y'].value = camera_y
+
+    if selected_fractal == 0:
+        render_object_m.render(mode=mgl.TRIANGLE_STRIP)
+    elif selected_fractal == 1:
+        program_j['tex'].value == frame_tex
+        render_object_j.render(mode=mgl.TRIANGLE_STRIP)
 
     pg.display.flip()
 

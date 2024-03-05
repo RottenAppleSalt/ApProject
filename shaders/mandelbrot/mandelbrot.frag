@@ -9,9 +9,10 @@ uniform float zoom;
 uniform float cam_x;
 uniform float cam_y;
 
-uniform float sin_x;
-uniform float sin_y;
-uniform float sin_z;
+uniform float wh_bl;
+uniform float col_x;
+uniform float col_y;
+uniform float col_z;
 
 void main() {
     // Normalized pixel coordinates (from 0 to 1)
@@ -56,10 +57,10 @@ void main() {
     
     
     // Pixel color
-    vec3 col = vec3(0.0);
+    vec3 col = vec3(wh_bl);
     if(!is_bounded) {
         col = vec3(pow(age/float(ITERATIONS)*20., 0.75));
-        col = vec3(col.x * sin_x, col.y * sin_y, col.z * sin_z);
+        col = vec3(col.x * col_x, col.y * col_y, col.z * col_z);
     }
 
     // Output to screen

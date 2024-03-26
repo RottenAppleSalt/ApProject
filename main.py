@@ -1,8 +1,11 @@
+import info_window
+
 import sys
 import math
 
 import pygame as pg
 import moderngl as mgl
+import tkinter as tk
 
 from array import array
 
@@ -131,6 +134,7 @@ while True:
 
     colors = [program_m['wh_bl'], program_m['col_x'], program_m['col_y'], program_m['col_z']]
 
+    selected_filter = info_window.selected_filter
     apply_filter(time, selected_filter, colors)
 
     keys = pg.key.get_pressed()
